@@ -15,6 +15,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   Animation<double> _scaleAnimation;
   Animation<double> _menuScaleAnimation;
   Animation<Offset> _slideAnimation;
+  
 
   @override
   void initState() {
@@ -80,7 +81,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                 pagesnapping : true,
                 children : <Widget>[
                   Container(
-                    
+
                   )
                 ]
               ),
