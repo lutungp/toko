@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mystore/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:mystore/pages/dashboard_layout/menu.dart';
 import 'package:mystore/pages/dashboard_layout/dashboard.dart';
+import 'package:mystore/pages/ui/messages_page.dart';
 import 'package:mystore/pages/ui/my_cards.dart';
+import 'package:mystore/pages/ui/utility_bills_page.dart';
 
 final Color backgroundColor = Color(0xFF4A4A58);
 class MainPage extends StatefulWidget {
@@ -59,9 +61,14 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
         create : (context) => NavigationBloc(onMenuTap: onMenuTap),
         child: Stack(
           children: <Widget>[
-            Menu(
-              slideAnimation: _slideAnimation, 
-              menuAnimation : _menuScaleAnimation
+            BlocBuilder<NavigationBloc, NavigationStates>(
+              builder: (context, NavigationStates navigationState) {
+                return Menu(
+                    slideAnimation: _slideAnimation,
+                    menuAnimation : _menuScaleAnimation,
+                    selectedIndex : findSelectedIndex(navigationState),
+                );
+              },
             ),
             Dashboard(
               duration: duration,
@@ -78,5 +85,17 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
         ),
       ),
     );
+  }
+
+  int findSelectedIndex(NavigationStates navigationState) {
+      if (navigationState is MyCardsPage) {
+        return 0;
+      } else if (navigationState is MessagesPage) {
+        return 1;
+      } else if (navigationState is UtilityBills) {
+        return 2;
+      } else {
+        return 0;
+      }
   }
 }
