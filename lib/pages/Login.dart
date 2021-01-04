@@ -4,7 +4,7 @@ import 'package:mystore/pages/MainPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:crypto/crypto.dart' as crypto;
+// import 'package:crypto/crypto.dart' as crypto;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginPageState extends State<LoginScreen> {
   bool _isInAsyncCall = false;
   bool _isLoggedIn = false;
-  
+
   final userloginCtrl = TextEditingController(text: "");
   final passwordloginCtrl = TextEditingController(text: "");
 
@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginScreen> {
     super.initState();
     getCredential();
   }
-  
+
   Widget build(BuildContext context) {
     final logo = Hero(
       tag: 'hero',
@@ -45,10 +45,10 @@ class _LoginPageState extends State<LoginScreen> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
       ),
       validator: (value) {
-          if (value.length < 6)
-            return 'Minimal 6 karakter';
-          else
-            return null;
+        if (value.length < 6)
+          return 'Minimal 6 karakter';
+        else
+          return null;
       },
     );
 
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginScreen> {
           minWidth: 200.0,
           height: 42.0,
           onPressed: () => _login(),
-          color: Colors.green ,
+          color: Colors.green,
           child: Text('Masuk', style: TextStyle(color: Colors.white)),
         ),
       ),
@@ -88,17 +88,13 @@ class _LoginPageState extends State<LoginScreen> {
       textAlign: TextAlign.center,
       text: TextSpan(
           text: 'Admin ',
-          style: TextStyle(
-            color: Colors.redAccent, 
-            fontSize: 16.0
-          ),
+          style: TextStyle(color: Colors.redAccent, fontSize: 16.0),
           children: <TextSpan>[
             TextSpan(
               text: ' RS HAJI JAKARTA',
               style: TextStyle(color: Colors.green, fontSize: 16),
             )
-          ]
-      ),
+          ]),
     );
 
     return Scaffold(
@@ -123,6 +119,7 @@ class _LoginPageState extends State<LoginScreen> {
   }
 
   Future<dynamic> _login() async {
+    /*
     final JsonDecoder _decoder = new JsonDecoder();
     try {
       var user = new Utf8Encoder().convert(userloginCtrl.text);
@@ -160,17 +157,17 @@ class _LoginPageState extends State<LoginScreen> {
                   content: new Text("Username atau password salah"),
                 ));
           });
-        } else {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          setState(() {
-            prefs.setString('user_id', datauser["data"][0]["user_id"]);
-            prefs.setString('user_kode', datauser["data"][0]["user_kode"]);
-            prefs.setString('user_nama', datauser["data"][0]["user_nama"]);
-            prefs.setString('user_apikey', datauser["data"][0]["user_apikey"]);
-            Navigator.of(context).pushNamed(MainPage.tag);
-            _isInAsyncCall = false;
-          });
-        }
+        } else {*/
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setString('user_id', "0");
+      prefs.setString('user_kode', "A");
+      prefs.setString('user_nama', "A");
+      prefs.setString('user_apikey', "A");
+      Navigator.of(context).pushNamed(MainPage.tag);
+      _isInAsyncCall = false;
+    });
+    /*}
       }
     } catch (e) {
       _isInAsyncCall = false;
@@ -185,23 +182,22 @@ class _LoginPageState extends State<LoginScreen> {
         _isInAsyncCall = false;
       });
       return null;
-    }
+    }*/
   }
 
   getCredential() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print(prefs.getString("user_id"));
     setState(() {
-      if ( prefs.getString("user_id") != null){
-        _isLoggedIn=  true;
+      if (prefs.getString("user_id") != null) {
+        _isLoggedIn = true;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => new MainPage()),
         );
-      }else{
-        _isLoggedIn =false;
+      } else {
+        _isLoggedIn = false;
       }
     });
   }
-
 }
